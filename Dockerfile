@@ -16,10 +16,6 @@ RUN apt update
 RUN apt -y install jenkins
 RUN service jenkins start
 #RUN service jenkins status
-RUN rm -v /var/run/jenkins/jenkins.pid
-RUN service jenkins stop 
-RUN service jenkins start
-#RUN service jenkins status
 #RUN 'cat /var/lib/jenkins/secrets/initialAdminPassword'
 
 EXPOSE 22 8080
