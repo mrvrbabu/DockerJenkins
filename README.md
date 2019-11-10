@@ -1,4 +1,9 @@
 # DockerJenkins
+
+# Run the jenkins-docker.sh to install jenkins as docker image
+
+# Run docker exec -it <container id> /bin/cat /var/jenkins_home/secrets/initialAdminPassword  # To get the jenkins initial adim password. 
+
 # Docker image build command 
  docker build -t ubuntudockerjenkins . 
  docker run -it -p 8080:8080 --name=jenkins01 ubuntudockerjenkins
