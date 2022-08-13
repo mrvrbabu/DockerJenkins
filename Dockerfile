@@ -1,22 +1,24 @@
-# create new
-FROM ubuntu:18.04
-MAINTAINER Rbabu <mr.vrbabu@hotmail.com>
+FROM jenkins/jenkins:2.346.3-jdk11
+USER root
+RUN apt-get update && apt-get install -y lsb-release
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
+  https://download.docker.com/linux/debian/gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+  https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+RUN apt-get update && apt-get install -y docker-ce-cli
+USER jenkins
 
-RUN apt update
-#Install prereqs i.e java8 for jenkins
-RUN apt -y install openjdk-8-jdk
-RUN java -version
 
-#Add repository key to system 
-RUN apt -y install wget gnupg systemd
+VOLUME /var/jenkins_home
 
-RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | apt-key add -
-RUN sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-RUN apt update
-RUN apt -y install jenkins
-RUN service jenkins start
-#RUN service jenkins status
-#RUN 'cat /var/lib/jenkins/secrets/initialAdminPassword'
+## Docker build 
+# sudo docker build -t jenkins .
 
-EXPOSE 22 8080
+## Docker run 
+# sudo docker run -it -d -p 8080:8080 --name jenkins jenkins
 
+
+## Run below command to get the username and password
+#sudo docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
